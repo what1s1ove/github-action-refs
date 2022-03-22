@@ -6,14 +6,29 @@ on:
       - development
       - production
 
-env:
-  ENVIRONMENT: ${{ github.ref_name }}
-
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Hey
-        run: |
-          echo "Current Branch is ${{ env.ENVIRONMENT }}"
+    - name: Map Init
+      uses: kanga333/variable-mapper@0.2.2
+      with:
+        key: ${{ github.ref_name }}
+        map: |
+          {
+            "development": {
+              "environment": "development1",
+              "AWS_ACCESS_KEY_ID": "${{ secrets.PROD_AWS_ACCESS_KEY_ID }}",
+              "AWS_SECRET_ACCESS_KEY": "${{ secrets.PROD_AWS_ACCESS_KEY_ID }}"
+            },
+            "production": {
+              "environment": "production1",
+              "AWS_ACCESS_KEY_ID": "${{ secrets.STG_AWS_ACCESS_KEY_ID }}",
+              "AWS_SECRET_ACCESS_KEY": "${{ secrets.STG_AWS_ACCESS_KEY_ID }}"
+            }
+          }
+    - name: Echo Environment
+      run: echo ${{ env.environment }}
+    - name: Echo Secret
+      run: echo ${{ env.AWS_ACCESS_KEY_ID }}
