@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Map Init
-      uses: kanga333/variable-mapper@0.2.2
+      uses: kanga333/variable-mapper@0.2
       with:
         key: ${{ github.ref_name }}
         map: |
