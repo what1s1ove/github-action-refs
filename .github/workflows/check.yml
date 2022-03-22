@@ -6,6 +6,9 @@ on:
       - development
       - production
 
+env:
+  ENVIRONMENT: ${{ github.ref_name }}
+
 jobs:
   deploy:
     name: Deploy
@@ -13,4 +16,4 @@ jobs:
     steps:
       - name: Hey
         run: |
-          echo "Current Branch is ${{ github.ref_name }}"
+          echo "Current Branch is ${{ env.ENVIRONMENT }}"
